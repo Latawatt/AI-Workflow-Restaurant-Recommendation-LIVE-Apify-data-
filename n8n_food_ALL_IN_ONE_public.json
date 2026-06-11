@@ -1,0 +1,334 @@
+{
+  "name": "AI Food Assistant — ALL-IN-ONE v3 (Pinned 40 Place IDs)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "food-chat-win",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "id": "id-Webhook (Chat)",
+      "name": "Webhook (Chat)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -40,
+        120
+      ],
+      "webhookId": "food-chat-win"
+    },
+    {
+      "parameters": {
+        "jsCode": "\n// ===== Self-contained chatbot (embedded data, no CSV needed) =====\nconst body=($('Webhook (Chat)').first().json.body)||{};\nconst q=(body.question||'').toString().toLowerCase();\nconst L=[{\"n\":\"Hongdae Buffet Siam Square One\",\"a\":\"Siam\",\"c\":\"Buffet\",\"p\":500,\"t\":96,\"r\":4.8,\"rv\":5864,\"g\":\"Yes\",\"pt\":\"฿฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=Hongdae%20Buffet%20Siam%20Square%20One&query_place_id=ChIJkSRYFdKe4jARHuKV60eqRT4\"},{\"n\":\"Jaguemsong Siam Square One\",\"a\":\"Siam\",\"c\":\"Korean\",\"p\":300,\"t\":95.5,\"r\":4.9,\"rv\":3474,\"g\":\"Yes\",\"pt\":\"฿฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=Jaguemsong%20Siam%20Square%20One&query_place_id=ChIJI9ZH5vGf4jAR4EfOG4k_M8c\"},{\"n\":\"KORATA (Siam Square)\",\"a\":\"Siam\",\"c\":\"Thai\",\"p\":400,\"t\":92.5,\"r\":4.9,\"rv\":2559,\"g\":\"Yes\",\"pt\":\"฿฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=KORATA%20Siam%20Square&query_place_id=ChIJ0xYxXwCf4jARPtJNOp_WXm8\"},{\"n\":\"Kopihub Prime l Ari\",\"a\":\"Ari\",\"c\":\"Chinese\",\"p\":300,\"t\":92,\"r\":4.8,\"rv\":3432,\"g\":\"Yes\",\"pt\":\"฿฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=Kopihub%20Prime%20Ari&query_place_id=ChIJgdqs_tuf4jARl5VCETZn0do\"},{\"n\":\"Savoey @Terminal 21 Asok\",\"a\":\"Asok\",\"c\":\"Seafood\",\"p\":700,\"t\":87,\"r\":4.6,\"rv\":3631,\"g\":\"Yes\",\"pt\":\"฿฿฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=Savoey%20Terminal%2021%20Asok&query_place_id=ChIJ1afT-oif4jARvl-Fq22OydQ\"},{\"n\":\"Krua Jiang Mai\",\"a\":\"Thonglor\",\"c\":\"Thai\",\"p\":300,\"t\":86,\"r\":4.8,\"rv\":2774,\"g\":\"Yes\",\"pt\":\"฿฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=Krua%20Jiang%20Mai&query_place_id=ChIJh7s6GVOe4jAReTmapQOwBQ0\"},{\"n\":\"White Flower Factory (Siam Square One)\",\"a\":\"Siam\",\"c\":\"Thai\",\"p\":500,\"t\":85.6,\"r\":4.6,\"rv\":1521,\"g\":\"Yes\",\"pt\":\"฿฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=White%20Flower%20Factory%20Siam&query_place_id=ChIJ937RdtKe4jARPRuzBAQLNxc\"},{\"n\":\"Inter Restaurants (Siam Square)\",\"a\":\"Siam\",\"c\":\"Thai\",\"p\":300,\"t\":85,\"r\":4.4,\"rv\":3031,\"g\":\"Yes\",\"pt\":\"฿฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=Inter%20Restaurants%20Siam&query_place_id=ChIJV1UGZABiHTERoiXISIWa6-o\"},{\"n\":\"Gigi Eatery Asoke\",\"a\":\"Asok\",\"c\":\"Italian\",\"p\":900,\"t\":82,\"r\":4.8,\"rv\":3392,\"g\":\"Yes\",\"pt\":\"฿฿฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=Gigi%20Eatery%20Asoke&query_place_id=ChIJw5WEJoqf4jARFC4PiDtFCzc\"},{\"n\":\"Nara Thai Cuisine (Terminal 21 Asok)\",\"a\":\"Asok\",\"c\":\"Thai\",\"p\":800,\"t\":81.2,\"r\":4.7,\"rv\":1137,\"g\":\"Yes\",\"pt\":\"฿฿฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=Nara%20Thai%20Terminal%2021&query_place_id=ChIJ5UUPyu6f4jARzil2TMt0IZg\"},{\"n\":\"Lucca Thonglor – Mediterranean Restaurant, Rooftop & All-Day Brunch\",\"a\":\"Thonglor\",\"c\":\"Other\",\"p\":400,\"t\":80.8,\"r\":4.9,\"rv\":853,\"g\":\"Yes\",\"pt\":\"฿฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=Lucca%20Thonglor&query_place_id=ChIJbx8TnXKf4jARvOgGrfi8gCQ\"},{\"n\":\"Ongtong Khaosoi Ari Branch\",\"a\":\"Ari\",\"c\":\"Thai\",\"p\":300,\"t\":80.8,\"r\":4.3,\"rv\":1863,\"g\":\"Yes\",\"pt\":\"฿฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=Ongtong%20Khaosoi%20Ari&query_place_id=ChIJT2m3lx2c4jARfziuf8CSZBY\"},{\"n\":\"Katsuya Siam Square One\",\"a\":\"Siam\",\"c\":\"Japanese\",\"p\":300,\"t\":80.8,\"r\":4.9,\"rv\":1060,\"g\":\"Partial\",\"pt\":\"฿฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=Katsuya%20Siam%20Square%20One&query_place_id=ChIJ2UNxXSKf4jARtP2IftNYDrU\"},{\"n\":\"Madam Saranair Thai Food\",\"a\":\"Asok\",\"c\":\"Thai\",\"p\":600,\"t\":80.5,\"r\":4.5,\"rv\":2193,\"g\":\"Yes\",\"pt\":\"฿฿฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=Madam%20Saranair&query_place_id=ChIJ1bV7lOSe4jARZfwCIKXKyNU\"},{\"n\":\"BARTELS Asok\",\"a\":\"Asok\",\"c\":\"Cafe\",\"p\":300,\"t\":78,\"r\":4.8,\"rv\":2464,\"g\":\"Partial\",\"pt\":\"฿฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=BARTELS%20Asok&query_place_id=ChIJa7RbIkGf4jARxc9xrSROCts\"},{\"n\":\"Sri Trat Restaurant and Bar\",\"a\":\"Phrom Phong\",\"c\":\"Thai\",\"p\":900,\"t\":77.5,\"r\":4.5,\"rv\":2553,\"g\":\"Yes\",\"pt\":\"฿฿฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=Sri%20Trat&query_place_id=ChIJoc-7O_ye4jARa2GblY_w4Bo\"},{\"n\":\"Thanphor Salapao @ La Villa Ari\",\"a\":\"Ari\",\"c\":\"Other\",\"p\":100,\"t\":77.3,\"r\":4.9,\"rv\":357,\"g\":\"Yes\",\"pt\":\"฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=Thanphor%20Salapao%20La%20Villa%20Ari&query_place_id=ChIJ6bL0kfad4jARqGHqAV9dmYY\"},{\"n\":\"Madcow Burger x Under Over Ari\",\"a\":\"Ari\",\"c\":\"Burger\",\"p\":300,\"t\":77.2,\"r\":4.8,\"rv\":246,\"g\":\"Yes\",\"pt\":\"฿฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=Madcow%20Ari&query_place_id=ChIJtbK7WrOd4jARTFq03G7s99k\"},{\"n\":\"GaGa Udon House @Thonglor\",\"a\":\"Thonglor\",\"c\":\"Japanese\",\"p\":300,\"t\":75.7,\"r\":4.8,\"rv\":1346,\"g\":\"Partial\",\"pt\":\"฿฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=GaGa%20Udon%20House&query_place_id=ChIJ-9VINeef4jARrEtHnUew4MY\"},{\"n\":\"Breakfast Story Phrom Phong\",\"a\":\"Phrom Phong\",\"c\":\"Cafe\",\"p\":300,\"t\":75,\"r\":4.6,\"rv\":2438,\"g\":\"Partial\",\"pt\":\"฿฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=Breakfast%20Story%20Phrom%20Phong&query_place_id=ChIJ641S8P2e4jARFamnzgu_IMo\"},{\"n\":\"Ping's Shark Fin Restaurant Asoke\",\"a\":\"Asok\",\"c\":\"Chinese\",\"p\":1000,\"t\":74,\"r\":4.6,\"rv\":1596,\"g\":\"Yes\",\"pt\":\"฿฿฿฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=Ping's%20Shark%20Fin%20Asoke&query_place_id=ChIJnfQQnAGf4jARkEY6N_nZR74\"},{\"n\":\"Mad Moa Asok\",\"a\":\"Asok\",\"c\":\"Western\",\"p\":500,\"t\":73.8,\"r\":4.8,\"rv\":159,\"g\":\"Yes\",\"pt\":\"฿฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=Mad%20Moa%20Asok&query_place_id=ChIJgX-SHpqf4jARTZxC5FBJGwQ\"},{\"n\":\"Victoria by Cocotte @ EmQuartier\",\"a\":\"Phrom Phong\",\"c\":\"Other\",\"p\":1000,\"t\":73.2,\"r\":4.6,\"rv\":1033,\"g\":\"Yes\",\"pt\":\"฿฿฿฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=Victoria%20by%20Cocotte%20EmQuartier&query_place_id=ChIJAVSRYU2f4jARWx7kH5rhiWc\"},{\"n\":\"Supanniga Eating Room by Khun Yai\",\"a\":\"Thonglor\",\"c\":\"Thai\",\"p\":1000,\"t\":71.7,\"r\":4.4,\"rv\":1730,\"g\":\"Yes\",\"pt\":\"฿฿฿฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=Supanniga%20Eating%20Room&query_place_id=ChIJYSgxk6yf4jAROxN8pCQzqJA\"},{\"n\":\"BARTELS Thonglor\",\"a\":\"Thonglor\",\"c\":\"Cafe\",\"p\":300,\"t\":71.6,\"r\":4.7,\"rv\":1016,\"g\":\"Partial\",\"pt\":\"฿฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=BARTELS%20Thonglor&query_place_id=ChIJRYG-ZEmf4jARsi5wK97SIJU\"},{\"n\":\"Sousaku Ari\",\"a\":\"Ari\",\"c\":\"Japanese\",\"p\":1200,\"t\":71.6,\"r\":4.6,\"rv\":1123,\"g\":\"Yes\",\"pt\":\"฿฿฿฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=Sousaku%20Ari&query_place_id=ChIJs3BZdR2c4jARB8V8iANTx7o\"},{\"n\":\"PEPE Bangkok\",\"a\":\"Phrom Phong\",\"c\":\"Fusion\",\"p\":2000,\"t\":70.5,\"r\":4.8,\"rv\":904,\"g\":\"Yes\",\"pt\":\"฿฿฿฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=PEPE%20Bangkok&query_place_id=ChIJIUHmOe2f4jAR2l7P6OOm4hg\"},{\"n\":\"Origami Restaurant Sukhumvit 24\",\"a\":\"Phrom Phong\",\"c\":\"Other\",\"p\":900,\"t\":70.2,\"r\":4.8,\"rv\":247,\"g\":\"Yes\",\"pt\":\"฿฿฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=Origami%20Sukhumvit%2024&query_place_id=ChIJu5j2gCOf4jARCFnsDMLgh0g\"},{\"n\":\"Florae Restaurant\",\"a\":\"Phrom Phong\",\"c\":\"Other\",\"p\":null,\"t\":69.8,\"r\":4.8,\"rv\":659,\"g\":\"Yes\",\"pt\":\"n/a\",\"u\":\"https://www.google.com/maps/search/?api=1&query=Florae%20Restaurant&query_place_id=ChIJyVfJqDuf4jARyFXroxpoUag\"},{\"n\":\"Breakfast Story Thonglor\",\"a\":\"Thonglor\",\"c\":\"Cafe\",\"p\":300,\"t\":69.4,\"r\":4.7,\"rv\":589,\"g\":\"Partial\",\"pt\":\"฿฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=Breakfast%20Story%20Thonglor&query_place_id=ChIJa5vc1pSf4jARnkGCYRYBpE8\"},{\"n\":\"Fuego\",\"a\":\"Thonglor\",\"c\":\"Other\",\"p\":2000,\"t\":69.1,\"r\":4.8,\"rv\":628,\"g\":\"Yes\",\"pt\":\"฿฿฿฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=Fuego&query_place_id=ChIJN7fHY7Gf4jAR8jjTD8UA81k\"},{\"n\":\"Flower Cafe\",\"a\":\"Phrom Phong\",\"c\":\"Cafe\",\"p\":300,\"t\":68.9,\"r\":4.7,\"rv\":477,\"g\":\"Partial\",\"pt\":\"฿฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=Flower%20cafe&query_place_id=ChIJr4TRi9uf4jARC7vUlLxyJn4\"},{\"n\":\"Antico Fornaio (Asoke)\",\"a\":\"Asok\",\"c\":\"Other\",\"p\":300,\"t\":68.8,\"r\":4.9,\"rv\":54,\"g\":\"No\",\"pt\":\"฿฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=Antico%20Fornaio%20Asoke&query_place_id=ChIJx9lTRXOf4jAR9ACu8IqccM0\"},{\"n\":\"SWD Bangkok\",\"a\":\"Phrom Phong\",\"c\":\"Other\",\"p\":null,\"t\":68.4,\"r\":4.8,\"rv\":377,\"g\":\"Yes\",\"pt\":\"n/a\",\"u\":\"https://www.google.com/maps/search/?api=1&query=SWD%20Bangkok&query_place_id=ChIJPSQXMkOf4jARUl6zswYm-X4\"},{\"n\":\"Kinroll - Ari\",\"a\":\"Ari\",\"c\":\"Other\",\"p\":1000,\"t\":68,\"r\":4.8,\"rv\":398,\"g\":\"Yes\",\"pt\":\"฿฿฿฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=Kinroll%20Ari&query_place_id=ChIJXV78UEKd4jARC52Rr3NnqBY\"},{\"n\":\"Kaffa: Brunch and Brew\",\"a\":\"Ari\",\"c\":\"Cafe\",\"p\":500,\"t\":68,\"r\":4.5,\"rv\":304,\"g\":\"Partial\",\"pt\":\"฿฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=Kaffa%20Ari&query_place_id=ChIJ_TdHzo-f4jARejKT2Ll2s7U\"},{\"n\":\"Gourmet Bar (Novotel Siam Square)\",\"a\":\"Siam\",\"c\":\"Bar\",\"p\":500,\"t\":67.1,\"r\":4.8,\"rv\":418,\"g\":\"No\",\"pt\":\"฿฿฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=Gourmet%20Bar%20Novotel%20Siam&query_place_id=ChIJxWkSAtKe4jARzXhzk2VYrZ4\"},{\"n\":\"Di Vino Bangkok (Italian, Thonglor)\",\"a\":\"Thonglor\",\"c\":\"Italian\",\"p\":1300,\"t\":66.4,\"r\":4.7,\"rv\":384,\"g\":\"Yes\",\"pt\":\"฿฿฿฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=Di%20Vino%20Bangkok&query_place_id=ChIJi7QNHVOe4jARgyB05vA6Gk4\"},{\"n\":\"Parma Ari\",\"a\":\"Ari\",\"c\":\"Italian\",\"p\":1400,\"t\":65.4,\"r\":4.7,\"rv\":188,\"g\":\"Yes\",\"pt\":\"฿฿฿฿\",\"u\":\"https://www.google.com/maps/search/?api=1&query=Parma%20Ari&query_place_id=ChIJuxXFDRyf4jAROApXe-uZPCw\"},{\"n\":\"La Brioche by Novotel Siam Square\",\"a\":\"Siam\",\"c\":\"Dessert\",\"p\":null,\"t\":63.7,\"r\":4.8,\"rv\":239,\"g\":\"No\",\"pt\":\"n/a\",\"u\":\"https://www.google.com/maps/search/?api=1&query=La%20Brioche%20Novotel%20Siam&query_place_id=ChIJ8SabGNKe4jARuI-cmRWcSuM\"}];\nconst TH={Siam:'สยาม',Ari:'อารีย์',Thonglor:'ทองหล่อ',Asok:'อโศก','Phrom Phong':'พร้อมพงษ์'};\nconst areaMap={'สยาม':'Siam','siam':'Siam','อารีย์':'Ari','อารี':'Ari','ari':'Ari','ทองหล่อ':'Thonglor','ทองหล':'Thonglor','thonglor':'Thonglor','อโศก':'Asok','asok':'Asok','asoke':'Asok','พร้อมพงษ์':'Phrom Phong','พร้อมพง':'Phrom Phong','phrom':'Phrom Phong'};\nconst cuiMap={'เกาหลี':'Korean','ปิ้งย่าง':'Korean','ญี่ปุ่น':'Japanese','อูด้ง':'Japanese','ไทย':'Thai','อิตา':'Italian','จีน':'Chinese','ติ่มซำ':'Chinese','ซีฟู้ด':'Seafood','ทะเล':'Seafood','บุฟเฟ':'Buffet','คาเฟ่':'Cafe','เบอร์เกอร์':'Burger'};\nconst TOPIC=['ร้าน','อาหาร','กิน','มื้อ','ทีม','กลุ่ม','คน','ย่าน','งบ','ราคา','รีวิว','เรตติ้ง','แนะนำ','อันดับ','top','บุฟเฟ','เกาหลี','ญี่ปุ่น','ไทย','จีน','อิตา','ซีฟู้ด','ทะเล','คาเฟ่','สยาม','อารี','ทองหล่อ','อโศก','พร้อมพง','restaurant','food','dinner','siam','ari','thonglor','asok','phrom'];\nconst onTopic=TOPIC.some(k=>q.includes(k));\nlet answer;\nif(/^\\s*(สวัสดี|หวัดดี|hello|hi)\\b/.test(q)&&!onTopic){answer='สวัสดีครับ ผมช่วยเลือกร้านมื้อทีม 8–12 คน ใน 5 ย่าน (สยาม อารีย์ ทองหล่อ อโศก พร้อมพงษ์) ลองถามเช่น \"ร้านเกาหลีในสยาม กลุ่ม 10 คน\"';}\nelse if(!onTopic){answer='ขออภัยครับ ผมตอบได้เฉพาะเรื่องการเลือกร้านอาหารสำหรับมื้อทีม 8–12 คน ในย่านสยาม อารีย์ ทองหล่อ อโศก พร้อมพงษ์ เท่านั้น';}\nelse{\n let r=L.slice(),notes=[];\n for(const k in areaMap)if(q.includes(k)){r=r.filter(d=>d.a===areaMap[k]);notes.push('ย่าน'+TH[areaMap[k]]);break;}\n for(const k in cuiMap)if(q.includes(k)){r=r.filter(d=>d.c===cuiMap[k]);notes.push(k);break;}\n const m=q.match(/(?:ไม่เกิน|งบ|ภายใน|under|ราคา)\\s*([0-9]{2,4})/);if(m){const b=+m[1];r=r.filter(d=>(d.p||9999)<=b);notes.push('งบ≤฿'+b);}\n if(/(กลุ่ม|ทีม|คน|group|โต๊ะ)/.test(q))r=r.filter(d=>d.g!=='No');\n if(/(รีวิวเยอะ|น่าเชื่อถือ)/.test(q))r.sort((a,b)=>b.rv-a.rv);\n else if(/(เรตติ้ง|rating|ดีสุด|ดีที่สุด)/.test(q))r.sort((a,b)=>b.r-a.r);\n const top=r.slice(0,3);\n if(!top.length)answer='ไม่พบร้านที่ตรงเงื่อนไขในข้อมูลครับ ลองผ่อนเงื่อนไข เช่น เพิ่มงบหรือเปลี่ยนย่าน/ประเภทอาหาร';\n else answer='พบ '+r.length+' ร้านที่ตรงเงื่อนไข'+(notes.length?' ('+notes.join(', ')+')':'')+' — แนะนำ '+top.length+' อันดับแรก:\\n'+top.map((d,i)=>(i+1)+'. '+d.n+' ('+TH[d.a]+') — '+d.c+' · ⭐'+d.r+' ('+d.rv.toLocaleString()+') · '+(d.p?'~฿'+d.p+'/คน':d.pt)+' · '+d.t+'/100').join('\\n');\n}\nreturn [{json:{answer}}];"
+      },
+      "id": "id-Restaurant Bot",
+      "name": "Restaurant Bot",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ answer: $json.answer }) }}",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              }
+            ]
+          }
+        }
+      },
+      "id": "id-Respond Chat",
+      "name": "Respond Chat",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        520,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "food-refresh-win",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "id": "id-Webhook (Refresh)",
+      "name": "Webhook (Refresh)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -40,
+        360
+      ],
+      "webhookId": "food-refresh-win"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/acts/compass~crawler-google-places/run-sync-get-dataset-items?token=YOUR_APIFY_TOKEN",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ \"{\\\"placeIds\\\":[\\\"ChIJkSRYFdKe4jARHuKV60eqRT4\\\",\\\"ChIJI9ZH5vGf4jAR4EfOG4k_M8c\\\",\\\"ChIJ0xYxXwCf4jARPtJNOp_WXm8\\\",\\\"ChIJgdqs_tuf4jARl5VCETZn0do\\\",\\\"ChIJ1afT-oif4jARvl-Fq22OydQ\\\",\\\"ChIJh7s6GVOe4jAReTmapQOwBQ0\\\",\\\"ChIJ937RdtKe4jARPRuzBAQLNxc\\\",\\\"ChIJV1UGZABiHTERoiXISIWa6-o\\\",\\\"ChIJw5WEJoqf4jARFC4PiDtFCzc\\\",\\\"ChIJ5UUPyu6f4jARzil2TMt0IZg\\\",\\\"ChIJbx8TnXKf4jARvOgGrfi8gCQ\\\",\\\"ChIJT2m3lx2c4jARfziuf8CSZBY\\\",\\\"ChIJ2UNxXSKf4jARtP2IftNYDrU\\\",\\\"ChIJ1bV7lOSe4jARZfwCIKXKyNU\\\",\\\"ChIJa7RbIkGf4jARxc9xrSROCts\\\",\\\"ChIJoc-7O_ye4jARa2GblY_w4Bo\\\",\\\"ChIJ6bL0kfad4jARqGHqAV9dmYY\\\",\\\"ChIJtbK7WrOd4jARTFq03G7s99k\\\",\\\"ChIJ-9VINeef4jARrEtHnUew4MY\\\",\\\"ChIJ641S8P2e4jARFamnzgu_IMo\\\",\\\"ChIJnfQQnAGf4jARkEY6N_nZR74\\\",\\\"ChIJgX-SHpqf4jARTZxC5FBJGwQ\\\",\\\"ChIJAVSRYU2f4jARWx7kH5rhiWc\\\",\\\"ChIJYSgxk6yf4jAROxN8pCQzqJA\\\",\\\"ChIJRYG-ZEmf4jARsi5wK97SIJU\\\",\\\"ChIJs3BZdR2c4jARB8V8iANTx7o\\\",\\\"ChIJIUHmOe2f4jAR2l7P6OOm4hg\\\",\\\"ChIJu5j2gCOf4jARCFnsDMLgh0g\\\",\\\"ChIJyVfJqDuf4jARyFXroxpoUag\\\",\\\"ChIJa5vc1pSf4jARnkGCYRYBpE8\\\",\\\"ChIJN7fHY7Gf4jAR8jjTD8UA81k\\\",\\\"ChIJr4TRi9uf4jARC7vUlLxyJn4\\\",\\\"ChIJx9lTRXOf4jAR9ACu8IqccM0\\\",\\\"ChIJPSQXMkOf4jARUl6zswYm-X4\\\",\\\"ChIJXV78UEKd4jARC52Rr3NnqBY\\\",\\\"ChIJ_TdHzo-f4jARejKT2Ll2s7U\\\",\\\"ChIJxWkSAtKe4jARzXhzk2VYrZ4\\\",\\\"ChIJi7QNHVOe4jARgyB05vA6Gk4\\\",\\\"ChIJuxXFDRyf4jAROApXe-uZPCw\\\",\\\"ChIJ8SabGNKe4jARuI-cmRWcSuM\\\"],\\\"language\\\":\\\"en\\\"}\" }}",
+        "options": {}
+      },
+      "id": "id-apify",
+      "name": "Apify Scrape (by Place IDs)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        200,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// ===== Clean & Score (PINNED to 40 curated Place IDs) =====\n// Apify scrape by placeIds -> refresh rating/reviews of the SAME 40 restaurants\nconst items=$input.all().map(i=>i.json);\nconst live={};\nitems.forEach(it=>{ const id=it.placeId; if(id) live[id]={rating:parseFloat(it.totalScore||it.rating)||0, reviews:parseInt(it.reviewsCount||it.reviews||0,10)||0}; });\nconst META=[{\"placeId\":\"ChIJkSRYFdKe4jARHuKV60eqRT4\",\"restaurant\":\"Hongdae Buffet Siam Square One\",\"area\":\"Siam\",\"cuisine\":\"Buffet\",\"category\":\"Buffet restaurant (Korean)\",\"perHead\":500,\"priceTier\":\"฿฿\",\"groupFit\":\"Excellent\",\"groupOk\":\"Yes\",\"travel\":\"In mall/on BTS-MRT\",\"sGroup\":20,\"sPrice\":15,\"sTravel\":15,\"sComplete\":15,\"sUnique\":9,\"baseRating\":4.8,\"baseReviews\":5864,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=Hongdae%20Buffet%20Siam%20Square%20One&query_place_id=ChIJkSRYFdKe4jARHuKV60eqRT4\"},{\"placeId\":\"ChIJI9ZH5vGf4jAR4EfOG4k_M8c\",\"restaurant\":\"Jaguemsong Siam Square One\",\"area\":\"Siam\",\"cuisine\":\"Korean\",\"category\":\"Korean restaurant\",\"perHead\":300,\"priceTier\":\"฿฿\",\"groupFit\":\"Excellent\",\"groupOk\":\"Yes\",\"travel\":\"In mall/on BTS-MRT\",\"sGroup\":20,\"sPrice\":15,\"sTravel\":15,\"sComplete\":15,\"sUnique\":7,\"baseRating\":4.9,\"baseReviews\":3474,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=Jaguemsong%20Siam%20Square%20One&query_place_id=ChIJI9ZH5vGf4jAR4EfOG4k_M8c\"},{\"placeId\":\"ChIJ0xYxXwCf4jARPtJNOp_WXm8\",\"restaurant\":\"KORATA (Siam Square)\",\"area\":\"Siam\",\"cuisine\":\"Thai\",\"category\":\"Thai restaurant (Korat/Isan)\",\"perHead\":400,\"priceTier\":\"฿฿\",\"groupFit\":\"Very good\",\"groupOk\":\"Yes\",\"travel\":\"In mall/on BTS-MRT\",\"sGroup\":17,\"sPrice\":15,\"sTravel\":15,\"sComplete\":15,\"sUnique\":7,\"baseRating\":4.9,\"baseReviews\":2559,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=KORATA%20Siam%20Square&query_place_id=ChIJ0xYxXwCf4jARPtJNOp_WXm8\"},{\"placeId\":\"ChIJgdqs_tuf4jARl5VCETZn0do\",\"restaurant\":\"Kopihub Prime l Ari\",\"area\":\"Ari\",\"cuisine\":\"Chinese\",\"category\":\"Dim sum restaurant\",\"perHead\":300,\"priceTier\":\"฿฿\",\"groupFit\":\"Excellent\",\"groupOk\":\"Yes\",\"travel\":\"<300m BTS/MRT\",\"sGroup\":20,\"sPrice\":15,\"sTravel\":13,\"sComplete\":15,\"sUnique\":7,\"baseRating\":4.8,\"baseReviews\":3432,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=Kopihub%20Prime%20Ari&query_place_id=ChIJgdqs_tuf4jARl5VCETZn0do\"},{\"placeId\":\"ChIJ1afT-oif4jARvl-Fq22OydQ\",\"restaurant\":\"Savoey @Terminal 21 Asok\",\"area\":\"Asok\",\"cuisine\":\"Seafood\",\"category\":\"Seafood restaurant\",\"perHead\":700,\"priceTier\":\"฿฿฿\",\"groupFit\":\"Excellent\",\"groupOk\":\"Yes\",\"travel\":\"In mall/on BTS-MRT\",\"sGroup\":20,\"sPrice\":11,\"sTravel\":15,\"sComplete\":15,\"sUnique\":7,\"baseRating\":4.6,\"baseReviews\":3631,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=Savoey%20Terminal%2021%20Asok&query_place_id=ChIJ1afT-oif4jARvl-Fq22OydQ\"},{\"placeId\":\"ChIJh7s6GVOe4jAReTmapQOwBQ0\",\"restaurant\":\"Krua Jiang Mai\",\"area\":\"Thonglor\",\"cuisine\":\"Thai\",\"category\":\"Thai restaurant\",\"perHead\":300,\"priceTier\":\"฿฿\",\"groupFit\":\"Very good\",\"groupOk\":\"Yes\",\"travel\":\"Down a soi\",\"sGroup\":17,\"sPrice\":15,\"sTravel\":10,\"sComplete\":15,\"sUnique\":7,\"baseRating\":4.8,\"baseReviews\":2774,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=Krua%20Jiang%20Mai&query_place_id=ChIJh7s6GVOe4jAReTmapQOwBQ0\"},{\"placeId\":\"ChIJ937RdtKe4jARPRuzBAQLNxc\",\"restaurant\":\"White Flower Factory (Siam Square One)\",\"area\":\"Siam\",\"cuisine\":\"Thai\",\"category\":\"Thai restaurant\",\"perHead\":500,\"priceTier\":\"฿฿\",\"groupFit\":\"Very good\",\"groupOk\":\"Yes\",\"travel\":\"In mall/on BTS-MRT\",\"sGroup\":17,\"sPrice\":15,\"sTravel\":15,\"sComplete\":15,\"sUnique\":7,\"baseRating\":4.6,\"baseReviews\":1521,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=White%20Flower%20Factory%20Siam&query_place_id=ChIJ937RdtKe4jARPRuzBAQLNxc\"},{\"placeId\":\"ChIJV1UGZABiHTERoiXISIWa6-o\",\"restaurant\":\"Inter Restaurants (Siam Square)\",\"area\":\"Siam\",\"cuisine\":\"Thai\",\"category\":\"Thai restaurant\",\"perHead\":300,\"priceTier\":\"฿฿\",\"groupFit\":\"Very good\",\"groupOk\":\"Yes\",\"travel\":\"In mall/on BTS-MRT\",\"sGroup\":17,\"sPrice\":15,\"sTravel\":15,\"sComplete\":15,\"sUnique\":7,\"baseRating\":4.4,\"baseReviews\":3031,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=Inter%20Restaurants%20Siam&query_place_id=ChIJV1UGZABiHTERoiXISIWa6-o\"},{\"placeId\":\"ChIJw5WEJoqf4jARFC4PiDtFCzc\",\"restaurant\":\"Gigi Eatery Asoke\",\"area\":\"Asok\",\"cuisine\":\"Italian\",\"category\":\"Italian restaurant\",\"perHead\":900,\"priceTier\":\"฿฿฿\",\"groupFit\":\"Good\",\"groupOk\":\"Yes\",\"travel\":\"<300m BTS/MRT\",\"sGroup\":14,\"sPrice\":11,\"sTravel\":13,\"sComplete\":15,\"sUnique\":7,\"baseRating\":4.8,\"baseReviews\":3392,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=Gigi%20Eatery%20Asoke&query_place_id=ChIJw5WEJoqf4jARFC4PiDtFCzc\"},{\"placeId\":\"ChIJ5UUPyu6f4jARzil2TMt0IZg\",\"restaurant\":\"Nara Thai Cuisine (Terminal 21 Asok)\",\"area\":\"Asok\",\"cuisine\":\"Thai\",\"category\":\"Thai restaurant\",\"perHead\":800,\"priceTier\":\"฿฿฿\",\"groupFit\":\"Very good\",\"groupOk\":\"Yes\",\"travel\":\"In mall/on BTS-MRT\",\"sGroup\":17,\"sPrice\":11,\"sTravel\":15,\"sComplete\":15,\"sUnique\":7,\"baseRating\":4.7,\"baseReviews\":1137,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=Nara%20Thai%20Terminal%2021&query_place_id=ChIJ5UUPyu6f4jARzil2TMt0IZg\"},{\"placeId\":\"ChIJbx8TnXKf4jARvOgGrfi8gCQ\",\"restaurant\":\"Lucca Thonglor – Mediterranean Restaurant, Rooftop & All-Day Brunch\",\"area\":\"Thonglor\",\"cuisine\":\"Other\",\"category\":\"Restaurant\",\"perHead\":400,\"priceTier\":\"฿฿\",\"groupFit\":\"Good\",\"groupOk\":\"Yes\",\"travel\":\"Down a soi\",\"sGroup\":14,\"sPrice\":15,\"sTravel\":10,\"sComplete\":15,\"sUnique\":9,\"baseRating\":4.9,\"baseReviews\":853,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=Lucca%20Thonglor&query_place_id=ChIJbx8TnXKf4jARvOgGrfi8gCQ\"},{\"placeId\":\"ChIJT2m3lx2c4jARfziuf8CSZBY\",\"restaurant\":\"Ongtong Khaosoi Ari Branch\",\"area\":\"Ari\",\"cuisine\":\"Thai\",\"category\":\"Thai restaurant (Northern)\",\"perHead\":300,\"priceTier\":\"฿฿\",\"groupFit\":\"Very good\",\"groupOk\":\"Yes\",\"travel\":\"<300m BTS/MRT\",\"sGroup\":17,\"sPrice\":15,\"sTravel\":13,\"sComplete\":15,\"sUnique\":7,\"baseRating\":4.3,\"baseReviews\":1863,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=Ongtong%20Khaosoi%20Ari&query_place_id=ChIJT2m3lx2c4jARfziuf8CSZBY\"},{\"placeId\":\"ChIJ2UNxXSKf4jARtP2IftNYDrU\",\"restaurant\":\"Katsuya Siam Square One\",\"area\":\"Siam\",\"cuisine\":\"Japanese\",\"category\":\"Tonkatsu restaurant\",\"perHead\":300,\"priceTier\":\"฿฿\",\"groupFit\":\"Medium\",\"groupOk\":\"Partial\",\"travel\":\"In mall/on BTS-MRT\",\"sGroup\":10,\"sPrice\":15,\"sTravel\":15,\"sComplete\":15,\"sUnique\":7,\"baseRating\":4.9,\"baseReviews\":1060,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=Katsuya%20Siam%20Square%20One&query_place_id=ChIJ2UNxXSKf4jARtP2IftNYDrU\"},{\"placeId\":\"ChIJ1bV7lOSe4jARZfwCIKXKyNU\",\"restaurant\":\"Madam Saranair Thai Food\",\"area\":\"Asok\",\"cuisine\":\"Thai\",\"category\":\"Thai restaurant\",\"perHead\":600,\"priceTier\":\"฿฿฿\",\"groupFit\":\"Very good\",\"groupOk\":\"Yes\",\"travel\":\"<300m BTS/MRT\",\"sGroup\":17,\"sPrice\":11,\"sTravel\":13,\"sComplete\":15,\"sUnique\":7,\"baseRating\":4.5,\"baseReviews\":2193,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=Madam%20Saranair&query_place_id=ChIJ1bV7lOSe4jARZfwCIKXKyNU\"},{\"placeId\":\"ChIJa7RbIkGf4jARxc9xrSROCts\",\"restaurant\":\"BARTELS Asok\",\"area\":\"Asok\",\"cuisine\":\"Cafe\",\"category\":\"Brunch restaurant\",\"perHead\":300,\"priceTier\":\"฿฿\",\"groupFit\":\"Medium\",\"groupOk\":\"Partial\",\"travel\":\"Down a soi\",\"sGroup\":10,\"sPrice\":15,\"sTravel\":10,\"sComplete\":15,\"sUnique\":6,\"baseRating\":4.8,\"baseReviews\":2464,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=BARTELS%20Asok&query_place_id=ChIJa7RbIkGf4jARxc9xrSROCts\"},{\"placeId\":\"ChIJoc-7O_ye4jARa2GblY_w4Bo\",\"restaurant\":\"Sri Trat Restaurant and Bar\",\"area\":\"Phrom Phong\",\"cuisine\":\"Thai\",\"category\":\"Thai restaurant (Eastern)\",\"perHead\":900,\"priceTier\":\"฿฿฿\",\"groupFit\":\"Very good\",\"groupOk\":\"Yes\",\"travel\":\"Down a soi\",\"sGroup\":17,\"sPrice\":11,\"sTravel\":10,\"sComplete\":15,\"sUnique\":7,\"baseRating\":4.5,\"baseReviews\":2553,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=Sri%20Trat&query_place_id=ChIJoc-7O_ye4jARa2GblY_w4Bo\"},{\"placeId\":\"ChIJ6bL0kfad4jARqGHqAV9dmYY\",\"restaurant\":\"Thanphor Salapao @ La Villa Ari\",\"area\":\"Ari\",\"cuisine\":\"Other\",\"category\":\"Restaurant\",\"perHead\":100,\"priceTier\":\"฿\",\"groupFit\":\"Good\",\"groupOk\":\"Yes\",\"travel\":\"<300m BTS/MRT\",\"sGroup\":14,\"sPrice\":13,\"sTravel\":13,\"sComplete\":15,\"sUnique\":7,\"baseRating\":4.9,\"baseReviews\":357,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=Thanphor%20Salapao%20La%20Villa%20Ari&query_place_id=ChIJ6bL0kfad4jARqGHqAV9dmYY\"},{\"placeId\":\"ChIJtbK7WrOd4jARTFq03G7s99k\",\"restaurant\":\"Madcow Burger x Under Over Ari\",\"area\":\"Ari\",\"cuisine\":\"Burger\",\"category\":\"Hamburger restaurant\",\"perHead\":300,\"priceTier\":\"฿฿\",\"groupFit\":\"Good\",\"groupOk\":\"Yes\",\"travel\":\"<300m BTS/MRT\",\"sGroup\":14,\"sPrice\":15,\"sTravel\":13,\"sComplete\":15,\"sUnique\":7,\"baseRating\":4.8,\"baseReviews\":246,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=Madcow%20Ari&query_place_id=ChIJtbK7WrOd4jARTFq03G7s99k\"},{\"placeId\":\"ChIJ-9VINeef4jARrEtHnUew4MY\",\"restaurant\":\"GaGa Udon House @Thonglor\",\"area\":\"Thonglor\",\"cuisine\":\"Japanese\",\"category\":\"Udon noodle restaurant\",\"perHead\":300,\"priceTier\":\"฿฿\",\"groupFit\":\"Medium\",\"groupOk\":\"Partial\",\"travel\":\"Down a soi\",\"sGroup\":10,\"sPrice\":15,\"sTravel\":10,\"sComplete\":15,\"sUnique\":7,\"baseRating\":4.8,\"baseReviews\":1346,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=GaGa%20Udon%20House&query_place_id=ChIJ-9VINeef4jARrEtHnUew4MY\"},{\"placeId\":\"ChIJ641S8P2e4jARFamnzgu_IMo\",\"restaurant\":\"Breakfast Story Phrom Phong\",\"area\":\"Phrom Phong\",\"cuisine\":\"Cafe\",\"category\":\"Brunch restaurant\",\"perHead\":300,\"priceTier\":\"฿฿\",\"groupFit\":\"Medium\",\"groupOk\":\"Partial\",\"travel\":\"Down a soi\",\"sGroup\":10,\"sPrice\":15,\"sTravel\":10,\"sComplete\":15,\"sUnique\":6,\"baseRating\":4.6,\"baseReviews\":2438,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=Breakfast%20Story%20Phrom%20Phong&query_place_id=ChIJ641S8P2e4jARFamnzgu_IMo\"},{\"placeId\":\"ChIJnfQQnAGf4jARkEY6N_nZR74\",\"restaurant\":\"Ping's Shark Fin Restaurant Asoke\",\"area\":\"Asok\",\"cuisine\":\"Chinese\",\"category\":\"Chinese restaurant\",\"perHead\":1000,\"priceTier\":\"฿฿฿฿\",\"groupFit\":\"Good\",\"groupOk\":\"Yes\",\"travel\":\"<300m BTS/MRT\",\"sGroup\":14,\"sPrice\":6,\"sTravel\":13,\"sComplete\":15,\"sUnique\":9,\"baseRating\":4.6,\"baseReviews\":1596,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=Ping's%20Shark%20Fin%20Asoke&query_place_id=ChIJnfQQnAGf4jARkEY6N_nZR74\"},{\"placeId\":\"ChIJgX-SHpqf4jARTZxC5FBJGwQ\",\"restaurant\":\"Mad Moa Asok\",\"area\":\"Asok\",\"cuisine\":\"Western\",\"category\":\"Western restaurant\",\"perHead\":500,\"priceTier\":\"฿฿\",\"groupFit\":\"Good\",\"groupOk\":\"Yes\",\"travel\":\"Down a soi\",\"sGroup\":14,\"sPrice\":15,\"sTravel\":10,\"sComplete\":15,\"sUnique\":7,\"baseRating\":4.8,\"baseReviews\":159,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=Mad%20Moa%20Asok&query_place_id=ChIJgX-SHpqf4jARTZxC5FBJGwQ\"},{\"placeId\":\"ChIJAVSRYU2f4jARWx7kH5rhiWc\",\"restaurant\":\"Victoria by Cocotte @ EmQuartier\",\"area\":\"Phrom Phong\",\"cuisine\":\"Other\",\"category\":\"Restaurant\",\"perHead\":1000,\"priceTier\":\"฿฿฿฿\",\"groupFit\":\"Good\",\"groupOk\":\"Yes\",\"travel\":\"In mall/on BTS-MRT\",\"sGroup\":14,\"sPrice\":6,\"sTravel\":15,\"sComplete\":15,\"sUnique\":9,\"baseRating\":4.6,\"baseReviews\":1033,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=Victoria%20by%20Cocotte%20EmQuartier&query_place_id=ChIJAVSRYU2f4jARWx7kH5rhiWc\"},{\"placeId\":\"ChIJYSgxk6yf4jAROxN8pCQzqJA\",\"restaurant\":\"Supanniga Eating Room by Khun Yai\",\"area\":\"Thonglor\",\"cuisine\":\"Thai\",\"category\":\"Thai restaurant\",\"perHead\":1000,\"priceTier\":\"฿฿฿฿\",\"groupFit\":\"Very good\",\"groupOk\":\"Yes\",\"travel\":\"Down a soi\",\"sGroup\":17,\"sPrice\":6,\"sTravel\":10,\"sComplete\":15,\"sUnique\":9,\"baseRating\":4.4,\"baseReviews\":1730,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=Supanniga%20Eating%20Room&query_place_id=ChIJYSgxk6yf4jAROxN8pCQzqJA\"},{\"placeId\":\"ChIJRYG-ZEmf4jARsi5wK97SIJU\",\"restaurant\":\"BARTELS Thonglor\",\"area\":\"Thonglor\",\"cuisine\":\"Cafe\",\"category\":\"Brunch restaurant\",\"perHead\":300,\"priceTier\":\"฿฿\",\"groupFit\":\"Medium\",\"groupOk\":\"Partial\",\"travel\":\"Down a soi\",\"sGroup\":10,\"sPrice\":15,\"sTravel\":10,\"sComplete\":15,\"sUnique\":6,\"baseRating\":4.7,\"baseReviews\":1016,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=BARTELS%20Thonglor&query_place_id=ChIJRYG-ZEmf4jARsi5wK97SIJU\"},{\"placeId\":\"ChIJs3BZdR2c4jARB8V8iANTx7o\",\"restaurant\":\"Sousaku Ari\",\"area\":\"Ari\",\"cuisine\":\"Japanese\",\"category\":\"Japanese restaurant\",\"perHead\":1200,\"priceTier\":\"฿฿฿฿\",\"groupFit\":\"Good\",\"groupOk\":\"Yes\",\"travel\":\"<300m BTS/MRT\",\"sGroup\":14,\"sPrice\":6,\"sTravel\":13,\"sComplete\":15,\"sUnique\":9,\"baseRating\":4.6,\"baseReviews\":1123,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=Sousaku%20Ari&query_place_id=ChIJs3BZdR2c4jARB8V8iANTx7o\"},{\"placeId\":\"ChIJIUHmOe2f4jAR2l7P6OOm4hg\",\"restaurant\":\"PEPE Bangkok\",\"area\":\"Phrom Phong\",\"cuisine\":\"Fusion\",\"category\":\"Asian fusion restaurant\",\"perHead\":2000,\"priceTier\":\"฿฿฿฿\",\"groupFit\":\"Good\",\"groupOk\":\"Yes\",\"travel\":\"Down a soi\",\"sGroup\":14,\"sPrice\":6,\"sTravel\":10,\"sComplete\":15,\"sUnique\":9,\"baseRating\":4.8,\"baseReviews\":904,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=PEPE%20Bangkok&query_place_id=ChIJIUHmOe2f4jAR2l7P6OOm4hg\"},{\"placeId\":\"ChIJu5j2gCOf4jARCFnsDMLgh0g\",\"restaurant\":\"Origami Restaurant Sukhumvit 24\",\"area\":\"Phrom Phong\",\"cuisine\":\"Other\",\"category\":\"Restaurant (borderless)\",\"perHead\":900,\"priceTier\":\"฿฿฿\",\"groupFit\":\"Good\",\"groupOk\":\"Yes\",\"travel\":\"Down a soi\",\"sGroup\":14,\"sPrice\":11,\"sTravel\":10,\"sComplete\":15,\"sUnique\":7,\"baseRating\":4.8,\"baseReviews\":247,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=Origami%20Sukhumvit%2024&query_place_id=ChIJu5j2gCOf4jARCFnsDMLgh0g\"},{\"placeId\":\"ChIJyVfJqDuf4jARyFXroxpoUag\",\"restaurant\":\"Florae Restaurant\",\"area\":\"Phrom Phong\",\"cuisine\":\"Other\",\"category\":\"Restaurant\",\"perHead\":null,\"priceTier\":\"n/a\",\"groupFit\":\"Good\",\"groupOk\":\"Yes\",\"travel\":\"Down a soi\",\"sGroup\":14,\"sPrice\":10,\"sTravel\":10,\"sComplete\":13.5,\"sUnique\":7,\"baseRating\":4.8,\"baseReviews\":659,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=Florae%20Restaurant&query_place_id=ChIJyVfJqDuf4jARyFXroxpoUag\"},{\"placeId\":\"ChIJa5vc1pSf4jARnkGCYRYBpE8\",\"restaurant\":\"Breakfast Story Thonglor\",\"area\":\"Thonglor\",\"cuisine\":\"Cafe\",\"category\":\"Brunch restaurant\",\"perHead\":300,\"priceTier\":\"฿฿\",\"groupFit\":\"Medium\",\"groupOk\":\"Partial\",\"travel\":\"Down a soi\",\"sGroup\":10,\"sPrice\":15,\"sTravel\":10,\"sComplete\":15,\"sUnique\":6,\"baseRating\":4.7,\"baseReviews\":589,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=Breakfast%20Story%20Thonglor&query_place_id=ChIJa5vc1pSf4jARnkGCYRYBpE8\"},{\"placeId\":\"ChIJN7fHY7Gf4jAR8jjTD8UA81k\",\"restaurant\":\"Fuego\",\"area\":\"Thonglor\",\"cuisine\":\"Other\",\"category\":\"Restaurant (grill)\",\"perHead\":2000,\"priceTier\":\"฿฿฿฿\",\"groupFit\":\"Good\",\"groupOk\":\"Yes\",\"travel\":\"Down a soi\",\"sGroup\":14,\"sPrice\":6,\"sTravel\":10,\"sComplete\":15,\"sUnique\":9,\"baseRating\":4.8,\"baseReviews\":628,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=Fuego&query_place_id=ChIJN7fHY7Gf4jAR8jjTD8UA81k\"},{\"placeId\":\"ChIJr4TRi9uf4jARC7vUlLxyJn4\",\"restaurant\":\"Flower Cafe\",\"area\":\"Phrom Phong\",\"cuisine\":\"Cafe\",\"category\":\"Restaurant (cafe)\",\"perHead\":300,\"priceTier\":\"฿฿\",\"groupFit\":\"Medium\",\"groupOk\":\"Partial\",\"travel\":\"Down a soi\",\"sGroup\":10,\"sPrice\":15,\"sTravel\":10,\"sComplete\":15,\"sUnique\":6,\"baseRating\":4.7,\"baseReviews\":477,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=Flower%20cafe&query_place_id=ChIJr4TRi9uf4jARC7vUlLxyJn4\"},{\"placeId\":\"ChIJx9lTRXOf4jAR9ACu8IqccM0\",\"restaurant\":\"Antico Fornaio (Asoke)\",\"area\":\"Asok\",\"cuisine\":\"Other\",\"category\":\"Sandwich shop\",\"perHead\":300,\"priceTier\":\"฿฿\",\"groupFit\":\"Low\",\"groupOk\":\"No\",\"travel\":\"<300m BTS/MRT\",\"sGroup\":6,\"sPrice\":15,\"sTravel\":13,\"sComplete\":15,\"sUnique\":6,\"baseRating\":4.9,\"baseReviews\":54,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=Antico%20Fornaio%20Asoke&query_place_id=ChIJx9lTRXOf4jAR9ACu8IqccM0\"},{\"placeId\":\"ChIJPSQXMkOf4jARUl6zswYm-X4\",\"restaurant\":\"SWD Bangkok\",\"area\":\"Phrom Phong\",\"cuisine\":\"Other\",\"category\":\"Restaurant\",\"perHead\":null,\"priceTier\":\"n/a\",\"groupFit\":\"Good\",\"groupOk\":\"Yes\",\"travel\":\"Down a soi\",\"sGroup\":14,\"sPrice\":10,\"sTravel\":10,\"sComplete\":13.5,\"sUnique\":7,\"baseRating\":4.8,\"baseReviews\":377,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=SWD%20Bangkok&query_place_id=ChIJPSQXMkOf4jARUl6zswYm-X4\"},{\"placeId\":\"ChIJXV78UEKd4jARC52Rr3NnqBY\",\"restaurant\":\"Kinroll - Ari\",\"area\":\"Ari\",\"cuisine\":\"Other\",\"category\":\"Restaurant\",\"perHead\":1000,\"priceTier\":\"฿฿฿฿\",\"groupFit\":\"Good\",\"groupOk\":\"Yes\",\"travel\":\"Down a soi\",\"sGroup\":14,\"sPrice\":6,\"sTravel\":10,\"sComplete\":15,\"sUnique\":9,\"baseRating\":4.8,\"baseReviews\":398,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=Kinroll%20Ari&query_place_id=ChIJXV78UEKd4jARC52Rr3NnqBY\"},{\"placeId\":\"ChIJ_TdHzo-f4jARejKT2Ll2s7U\",\"restaurant\":\"Kaffa: Brunch and Brew\",\"area\":\"Ari\",\"cuisine\":\"Cafe\",\"category\":\"Brunch restaurant\",\"perHead\":500,\"priceTier\":\"฿฿\",\"groupFit\":\"Medium\",\"groupOk\":\"Partial\",\"travel\":\"<300m BTS/MRT\",\"sGroup\":10,\"sPrice\":15,\"sTravel\":13,\"sComplete\":15,\"sUnique\":6,\"baseRating\":4.5,\"baseReviews\":304,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=Kaffa%20Ari&query_place_id=ChIJ_TdHzo-f4jARejKT2Ll2s7U\"},{\"placeId\":\"ChIJxWkSAtKe4jARzXhzk2VYrZ4\",\"restaurant\":\"Gourmet Bar (Novotel Siam Square)\",\"area\":\"Siam\",\"cuisine\":\"Bar\",\"category\":\"Bar / restaurant\",\"perHead\":500,\"priceTier\":\"฿฿฿\",\"groupFit\":\"Low\",\"groupOk\":\"No\",\"travel\":\"In mall/on BTS-MRT\",\"sGroup\":6,\"sPrice\":11,\"sTravel\":15,\"sComplete\":15,\"sUnique\":6,\"baseRating\":4.8,\"baseReviews\":418,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=Gourmet%20Bar%20Novotel%20Siam&query_place_id=ChIJxWkSAtKe4jARzXhzk2VYrZ4\"},{\"placeId\":\"ChIJi7QNHVOe4jARgyB05vA6Gk4\",\"restaurant\":\"Di Vino Bangkok (Italian, Thonglor)\",\"area\":\"Thonglor\",\"cuisine\":\"Italian\",\"category\":\"Italian restaurant\",\"perHead\":1300,\"priceTier\":\"฿฿฿฿\",\"groupFit\":\"Good\",\"groupOk\":\"Yes\",\"travel\":\"Down a soi\",\"sGroup\":14,\"sPrice\":6,\"sTravel\":10,\"sComplete\":15,\"sUnique\":9,\"baseRating\":4.7,\"baseReviews\":384,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=Di%20Vino%20Bangkok&query_place_id=ChIJi7QNHVOe4jARgyB05vA6Gk4\"},{\"placeId\":\"ChIJuxXFDRyf4jAROApXe-uZPCw\",\"restaurant\":\"Parma Ari\",\"area\":\"Ari\",\"cuisine\":\"Italian\",\"category\":\"Italian restaurant\",\"perHead\":1400,\"priceTier\":\"฿฿฿฿\",\"groupFit\":\"Good\",\"groupOk\":\"Yes\",\"travel\":\"Down a soi\",\"sGroup\":14,\"sPrice\":6,\"sTravel\":10,\"sComplete\":15,\"sUnique\":9,\"baseRating\":4.7,\"baseReviews\":188,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=Parma%20Ari&query_place_id=ChIJuxXFDRyf4jAROApXe-uZPCw\"},{\"placeId\":\"ChIJ8SabGNKe4jARuI-cmRWcSuM\",\"restaurant\":\"La Brioche by Novotel Siam Square\",\"area\":\"Siam\",\"cuisine\":\"Dessert\",\"category\":\"Dessert shop\",\"perHead\":null,\"priceTier\":\"n/a\",\"groupFit\":\"Low\",\"groupOk\":\"No\",\"travel\":\"In mall/on BTS-MRT\",\"sGroup\":6,\"sPrice\":10,\"sTravel\":15,\"sComplete\":13.5,\"sUnique\":6,\"baseRating\":4.8,\"baseReviews\":239,\"placeUrl\":\"https://www.google.com/maps/search/?api=1&query=La%20Brioche%20Novotel%20Siam&query_place_id=ChIJ8SabGNKe4jARuI-cmRWcSuM\"}];\nconst quickOf=cu=>({Buffet:90,Korean:85,Cafe:95,Japanese:80,Thai:80,Burger:90,Seafood:70,Chinese:75,Italian:65,Fusion:60,Western:80,Bar:70,Dessert:85,Other:75}[cu]||75);\nconst quietOf=cu=>({Italian:90,Japanese:85,Cafe:80,Fusion:85,Bar:60,Seafood:70,Thai:70,Chinese:70,Korean:55,Buffet:55,Burger:65,Western:80,Dessert:80,Other:70}[cu]||70);\nconst sc=v=>Math.round(v*10)/10;\nconst rows=META.map(m=>{\n  const lv=live[m.placeId]||{};\n  const rating=lv.rating||m.baseRating;\n  const reviews=lv.reviews||m.baseReviews;\n  const sRR=sc(Math.min(Math.max((rating-3)/2,0),1)*15 + Math.min(Math.log10(reviews+1)/Math.log10(5000),1)*10);\n  const total=sc(sRR+m.sGroup+m.sPrice+m.sTravel+m.sComplete+m.sUnique);\n  const flags=[]; if(reviews&&reviews<300)flags.push('รีวิวน้อย ('+reviews+')'); if(m.perHead==null)flags.push('ไม่มีช่วงราคา'); if(m.groupOk==='No')flags.push('ไม่เหมาะกลุ่มใหญ่');\n  const conf=Math.min(98,Math.round(50+Math.min(Math.log10(reviews+1)/Math.log10(6000),1)*48-(flags.length?flags.length*3:0)));\n  const scenario={safe:total,group:sc(0.7*total+0.3*(m.sGroup/20*100)),budget:sc(0.55*total+0.45*(m.sPrice/15*100)),quick:sc(0.7*total+0.3*quickOf(m.cuisine)),meeting:sc(0.7*total+0.3*quietOf(m.cuisine))};\n  return {restaurant:m.restaurant,area:m.area,cuisine:m.cuisine,category:m.category,rating,reviews,perHead:m.perHead,priceTier:m.priceTier,\n    groupFit:m.groupFit,groupOk:m.groupOk,travel:m.travel,confidence:conf,flags,pros:[],watch:[],\n    scores:{ratingReview:sRR,group:m.sGroup,price:m.sPrice,travel:m.sTravel,completeness:m.sComplete,uniqueness:m.sUnique},\n    total,scenario,placeUrl:m.placeUrl};\n});\nrows.sort((a,b)=>b.total-a.total); rows.forEach((r,i)=>r.rank=i+1);\nreturn [{json:{count:rows.length,rows,updatedAt:new Date().toISOString()}}];"
+      },
+      "id": "id-Clean & Score",
+      "name": "Clean & Score",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        440,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "PASTE_YOUR_APPS_SCRIPT_WEBAPP_URL_HERE",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ rows: $json.rows }) }}",
+        "options": {}
+      },
+      "id": "id-write",
+      "name": "Write to Sheet",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        680,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ status:'updated', count: $('Clean & Score').first().json.count, updatedAt: $('Clean & Score').first().json.updatedAt, rows: $('Clean & Score').first().json.rows }) }}",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              }
+            ]
+          }
+        }
+      },
+      "id": "id-Respond Refresh",
+      "name": "Respond Refresh",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        920,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "GET",
+        "path": "food-data-win",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "id": "id-Webhook (Data)",
+      "name": "Webhook (Data)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -40,
+        600
+      ],
+      "webhookId": "food-data-win"
+    },
+    {
+      "parameters": {
+        "url": "PASTE_YOUR_PUBLISHED_CSV_URL_HERE",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          }
+        }
+      },
+      "id": "id-Read CSV (Data)",
+      "name": "Read CSV (Data)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        200,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// ===== Data endpoint: published CSV (flat) -> web-schema rows =====\nconst csv=($input.first().json.data)||'';\nfunction parseCSV(t){const R=[];let row=[],f='',q=false;for(let i=0;i<t.length;i++){const c=t[i];\n if(q){if(c==='\"'){if(t[i+1]==='\"'){f+='\"';i++;}else q=false;}else f+=c;}\n else{if(c==='\"')q=true;else if(c===','){row.push(f);f='';}else if(c==='\\n'){row.push(f);R.push(row);row=[];f='';}else if(c==='\\r'){}else f+=c;}}\n if(f.length||row.length){row.push(f);R.push(row);}return R;}\nconst raw=parseCSV(csv).filter(r=>r.length>1);\nconst H=(raw.shift()||[]).map(h=>h.trim());\nconst idx={};H.forEach((h,i)=>idx[h]=i);\nconst g=(r,k)=>{const i=idx[k];return i==null?'':String(r[i]||'').trim();};\nconst num=(r,k)=>parseFloat(g(r,k))||0;\nconst rows=raw.map(r=>({\n rank:parseInt(g(r,'rank'))||0,restaurant:g(r,'restaurant'),area:g(r,'area'),cuisine:g(r,'cuisine')||'Other',category:g(r,'category'),\n rating:num(r,'rating'),reviews:parseInt(g(r,'reviews').replace(/[^0-9]/g,''))||0,\n perHead:g(r,'perHead')?(parseInt(g(r,'perHead'))||null):null,priceTier:g(r,'priceTier')||'n/a',\n groupFit:g(r,'groupFit')||'-',groupOk:g(r,'groupOk')||'Yes',travel:g(r,'travel')||'',confidence:parseInt(g(r,'confidence'))||80,\n flags:g(r,'flags')&&g(r,'flags')!=='-'?g(r,'flags').split('|'):[],pros:[],watch:[],\n scores:{ratingReview:num(r,'s_ratingReview'),group:num(r,'s_group'),price:num(r,'s_price'),travel:num(r,'s_travel'),completeness:num(r,'s_completeness'),uniqueness:num(r,'s_uniqueness')},\n total:num(r,'total'),\n scenario:{safe:num(r,'sc_safe')||num(r,'total'),group:num(r,'sc_group'),budget:num(r,'sc_budget'),quick:num(r,'sc_quick'),meeting:num(r,'sc_meeting')},\n placeUrl:g(r,'placeUrl')\n})).filter(x=>x.restaurant);\nreturn [{json:{count:rows.length,rows}}];\n"
+      },
+      "id": "id-Parse Data",
+      "name": "Parse Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        440,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ count: $json.count, rows: $json.rows }) }}",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              }
+            ]
+          }
+        }
+      },
+      "id": "id-Respond Data",
+      "name": "Respond Data",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        680,
+        600
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook (Chat)": {
+      "main": [
+        [
+          {
+            "node": "Restaurant Bot",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Restaurant Bot": {
+      "main": [
+        [
+          {
+            "node": "Respond Chat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook (Refresh)": {
+      "main": [
+        [
+          {
+            "node": "Apify Scrape (by Place IDs)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Apify Scrape (by Place IDs)": {
+      "main": [
+        [
+          {
+            "node": "Clean & Score",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clean & Score": {
+      "main": [
+        [
+          {
+            "node": "Write to Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write to Sheet": {
+      "main": [
+        [
+          {
+            "node": "Respond Refresh",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook (Data)": {
+      "main": [
+        [
+          {
+            "node": "Read CSV (Data)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read CSV (Data)": {
+      "main": [
+        [
+          {
+            "node": "Parse Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Data": {
+      "main": [
+        [
+          {
+            "node": "Respond Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}
